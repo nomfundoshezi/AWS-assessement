@@ -15,3 +15,5 @@ Our Expectation
 ### Webiste URL 
 
 http://nomfundo-website.s3-website-us-east-1.amazonaws.com/ 
+
+![Solution](https://github.com/nomfundoshezi/AWS-assessement/blob/main/Solution.png)
