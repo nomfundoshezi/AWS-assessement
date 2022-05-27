@@ -1,4 +1,4 @@
-# AWS-assessement
+# AWS-assessement Description
 
 ### Assuming you were tasked with building a new feature for an existing cloud-based, distributed web application that allows customers to register for a newsletter.
  
@@ -14,6 +14,10 @@ Our Expectation
 
 ### Webiste URL 
 
+The website is built using REACT.js, and hosted in AWS S3 bucket. The link is as below:-
+
 http://nomfundo-website.s3-website-us-east-1.amazonaws.com/ 
+
+### System Architecture
 
 ![Solution](https://github.com/nomfundoshezi/AWS-assessement/blob/main/Solution.png)
