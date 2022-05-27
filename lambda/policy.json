@@ -2,22 +2,21 @@
     "Version": "2012-10-17",
     "Statement": [
         {
+            "Sid": "VisualEditor0",
             "Effect": "Allow",
-            "Action": "logs:CreateLogGroup",
-            "Resource": "arn:aws:logs:us-east-1:<account-number>:*"
+            "Action": [
+                "dynamodb:PutItem"
+            ],
+            "Resource": "arn:aws:dynamodb:us-east-1:737327749629:table/email_subscriptions"
         },
         {
+            "Sid": "VisualEditor1",
             "Effect": "Allow",
             "Action": [
                 "logs:CreateLogStream",
-                "logs:PutLogEvents",
-                "s3:PutObject",
-                "s3:PutObjectAcl"
+                "logs:PutLogEvents"
             ],
-            "Resource": [
-                "arn:aws:logs:us-east-1:<account-number>:log-group:/aws/lambda/shezi:*",
-                "arn:aws:s3:::nomfundo-emails/*"
-            ]
+            "Resource": "arn:aws:logs:us-east-1:737327749629:log-group:/aws/lambda/shezi:*"
         }
     ]
 }
