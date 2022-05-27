@@ -1,29 +1,46 @@
 var AWS = require('aws-sdk');
+AWS.config.update({
+    region: process.env.AWS_REGION
+});
+var ddb = new AWS.DynamoDB({
+    apiVersion: '2012-08-10'
+});
 
-exports.handler = async (event) => {
-
-    let S3 = new AWS.S3({ region: process.env.AWS_REGION });
-
-    var email = event['rawPath'].replace('/', '');
-
+const saveEmailSubscription = (email) => {
     var params = {
-        Bucket: 'nomfundo-emails', //bucket to store email addresses
-        Key: email + ".txt",
-        Body: JSON.stringify(email),
-        ContentType: 'text/plain',
+        TableName: 'email_subscriptions',
+        Item: {
+            'email': {
+                S: email
+            }
+        },
+        ConditionExpression:"attribute_not_exists(email)"
     };
+   
+   
+    return new Promise((resolve, reject) => {
+        ddb.putItem(params, function(err, data) {
+            if (err) {
+                if(err.code === "ConditionalCheckFailedException"){
+                    reject("email_exist")
+                } else { 
+                    console.log(err)
+                    reject("error")
+                }
+            } else {
+                resolve("success")
+            }
+        });
+    })
+}
 
-    let s3Response = await S3.upload(params).promise();
-
-    const response = {
-        'statusCode': 200,
-        'headers': { 'Content-Type': 'application/json' },
-        'body': JSON.stringify({
-            "email": email,
-            "s3Path": s3Response.Location
-        })
-    }
-
-    return response;
-
+exports.handler = (event, context, callback) => {
+    const email = JSON.parse(event.body).email
+   
+    saveEmailSubscription(email).then((res)=>{
+        callback(null, res)
+    })
+    .catch(err=> {
+         callback(null, err)
+    })
 };
